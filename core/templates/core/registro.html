@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2 class="auth-title">Crear Cuenta</h2>
+        <p class="auth-subtitle">Únete para explorar la colección de arte.</p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="mb-3 text-start">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    
+                    {{ field }}
+                    
+                    {% if field.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in field.errors %}{{ error }}{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-auth mt-4">Registrarse</button>
+        </form>
+
+        <div class="auth-links mt-4">
+            <span>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a></span>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const inputs = document.querySelectorAll('.auth-card input, .auth-card select, .auth-card textarea');
+        inputs.forEach(input => {
+            input.classList.add('form-control');
+            // Quitamos los bordes feos que Django a veces pone por defecto
+            input.style.border = "none";
+            input.style.borderBottom = "2px solid #ddd";
+        });
+    });
+</script>
+{% endblock %}
