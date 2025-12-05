@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 # IMPORTANTE: Esto es necesario para que funcione el cambio de contraseña
 from django.contrib.auth import views as auth_views 
 from core import views
+from django.urls import path, re_path
+from django.views.static import serve
 
 urlpatterns = [
     # --- VISTAS PÚBLICAS ---
@@ -49,5 +51,8 @@ urlpatterns = [
 ]
 
 # Configuración para ver imágenes en modo desarrollo
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+#if settings.DEBUG:
+#    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+re_media = r'^%s(?P<path>.*)$' % settings.MEDIA_URL.lstrip('/')
+urlpatterns += [re_path(re_media, serve, {'document_root': settings.MEDIA_ROOT})]
