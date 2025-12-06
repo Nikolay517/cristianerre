@@ -51,8 +51,5 @@ urlpatterns = [
 ]
 
 # Configuración para ver imágenes en modo desarrollo
-#if settings.DEBUG:
-#    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-re_media = r'^%s(?P<path>.*)$' % settings.MEDIA_URL.lstrip('/')
-urlpatterns += [re_path(re_media, serve, {'document_root': settings.MEDIA_ROOT})]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
